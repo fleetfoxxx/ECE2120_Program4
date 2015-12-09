@@ -30,13 +30,9 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
       RestaurantGUI rg = new RestaurantGUI(800, 480, name, fileName, isObject);
 	}
 
-<<<<<<< HEAD
    private JPanel windowPanel;
    private JPanel controlPanel;
 
-   public RestaurantGUI(int width, int height) {
-      super(width, height, "8====D~ (. Y .)");
-=======
    public RestaurantGUI(int width, int height, String name, String fileName, Boolean isObject) {
 
       super(width, height, name);
@@ -48,7 +44,6 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
          System.out.println("Problem creating Restaurant - exiting program.");
          return;
       }
->>>>>>> origin/master
 
       setResizable(false);
       setUp(width, height);
