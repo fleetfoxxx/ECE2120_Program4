@@ -13,6 +13,7 @@ import javax.swing.*;
 public class RestaurantGUI extends CenterFrame implements ActionListener {
 	public static void main(String[] args){
       String name = ""; String fileName = ""; Boolean isObject;
+
       if (args.length >= 3) {
          name = args[0];
          fileName = args[1];
@@ -31,7 +32,59 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
 	}
 
    private JPanel windowPanel;
-   private JPanel controlPanel;
+   private JPanel topPanel;
+   private JPanel inputPanel;
+   private JPanel buttonPanel;
+
+   private JLabel reviewerNameLbl;
+   private JLabel reviewerRatingLbl;
+   private JLabel reviewDateLbl;
+   private JLabel itemNameLbl;
+   private JLabel numOrdersLbl;
+   private JLabel categoryLbl;
+   private JLabel servingSizeLbl;
+   private JLabel numCaloriesLbl;
+   private JLabel retailPriceLbl;
+   private JLabel wholesalePriceLbl;
+   private JLabel priceChangeLbl;
+   private JLabel sortFieldLbl;
+   private JLabel sortAlgorithmLbl;
+
+   private JTextField reviewerName;
+   private JTextField reviewerRating;
+   private JTextField reviewDate;
+   private JTextField itemName;
+   private JTextField numOrders;
+   private JTextField servingSize;
+   private JTextField numCalories;
+   private JTextField retailPrice;
+   private JTextField wholesalePrice;
+   private JTextField priceChange;
+   private JTextField sortField;
+   private JTextField sortAlgorithm;
+
+   private JButton statusBtn;
+   private JButton allItemNamesBtn;
+   private JButton sortBtn;
+   private JButton helpBtn;
+   private JButton addBtn;
+   private JButton removeBtn;
+   private JButton activateBtn;
+   private JButton discontinueBtn;
+   private JButton orderBtn;
+   private JButton rateItemBtn;
+   private JButton updatePriceBtn;
+   private JButton profitBtn;
+   private JButton avgRatingBtn;
+   private JButton writeFileBtn;
+
+   private JComboBox categoryCB;
+
+   private JRadioButton allItemsRB;
+   private JRadioButton wholesalePriceRB;
+   private JRadioButton objectFileRB;
+
+   private JScrollPane outputScrollPane;
 
    public RestaurantGUI(int width, int height, String name, String fileName, Boolean isObject) {
 
@@ -61,10 +114,14 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
       windowPanel.setLayout(new GridLayout(2, 1));
       add(windowPanel);
 
-      controlPanel = new JPanel();
-      controlPanel.setBackground(Color.green);
-      controlPanel.setLayout(new GridLayout(1, 3));
-      windowPanel.add(controlPanel);
+      topPanel = new JPanel();
+      topPanel.setBackground(Color.green);
+      topPanel.setLayout(new GridLayout(1, 2));
+      windowPanel.add(topPanel);
+
+      
+
+
    }
 
    // actionPerformed definition for ActionListener interface
