@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=sort\ comparator
+comment0.target=void\ selectionSort(java.lang.Object[],\ java.util.Comparator)
+comment1.params=sort\ n\ comparator
+comment1.target=void\ selectionSort(java.lang.Object[],\ int,\ java.util.Comparator)
+comment2.params=sort\ comparator
+comment2.target=void\ insertionSort(java.lang.Object[],\ java.util.Comparator)
+comment3.params=sort\ n\ comparator
+comment3.target=void\ insertionSort(java.lang.Object[],\ int,\ java.util.Comparator)
+comment4.params=sort\ comparator
+comment4.target=void\ bubbleSort(java.lang.Object[],\ java.util.Comparator)
+comment5.params=sort\ n\ comparator
+comment5.target=void\ bubbleSort(java.lang.Object[],\ int,\ java.util.Comparator)
+numComments=6
