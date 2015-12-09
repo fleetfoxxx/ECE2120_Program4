@@ -16,6 +16,8 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
       RestaurantGUI rg = new RestaurantGUI(800, 480);
 	}
 
+   private JPanel windowPanel;
+
    public RestaurantGUI(int width, int height) {
       super(width, height, "8====D~ (. Y .)");
 
@@ -28,6 +30,12 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
       setBackground(Color.white);
 
       // setup GUI elements
+
+      // panel
+      windowPanel = new JPanel();
+      windowPanel.setBackground(Color.pink);
+      setLayout(new GridLayout(2, 1));
+      add(windowPanel);
    }
 
    // actionPerformed definition for ActionListener interface
