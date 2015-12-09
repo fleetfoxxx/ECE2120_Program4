@@ -1,0 +1,13 @@
+{
+   "color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+   "ignored_packages":
+   [
+      "Vintage"
+   ],
+   "rulers":
+   [
+      80
+   ],
+   "tab_size": 3,
+   "translate_tabs_to_spaces": true
+}
