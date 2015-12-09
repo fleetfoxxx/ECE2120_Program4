@@ -11,16 +11,44 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class RestaurantGUI extends CenterFrame implements ActionListener {
-
 	public static void main(String[] args){
-      RestaurantGUI rg = new RestaurantGUI(800, 480);
+      String name = ""; String fileName = ""; Boolean isObject;
+      if (args.length >= 3) {
+         name = args[0];
+         fileName = args[1];
+         isObject = Boolean.parseBoolean(args[2]);
+      }
+      else if (args.length == 2) {
+         name = args[0];
+         fileName = args[1];
+         isObject = false;
+      }
+      else {
+         System.out.println("Usage: java RestaurantDriver restName fileName isObject");
+         return;
+      }
+      RestaurantGUI rg = new RestaurantGUI(800, 480, name, fileName, isObject);
 	}
 
+<<<<<<< HEAD
    private JPanel windowPanel;
    private JPanel controlPanel;
 
    public RestaurantGUI(int width, int height) {
       super(width, height, "8====D~ (. Y .)");
+=======
+   public RestaurantGUI(int width, int height, String name, String fileName, Boolean isObject) {
+
+      super(width, height, name);
+      // Create Restaurant Object to manipulate!
+      try {
+         Restaurant theRestaurant =new Restaurant(name, fileName, isObject);
+      } catch (RestaurantException re) {
+         System.out.println(re.getMessage());
+         System.out.println("Problem creating Restaurant - exiting program.");
+         return;
+      }
+>>>>>>> origin/master
 
       setResizable(false);
       setUp(width, height);
