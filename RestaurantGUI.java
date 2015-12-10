@@ -9,14 +9,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import java.util.*;
-=======
 import java.text.*;
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 
 public class RestaurantGUI extends CenterFrame {
 	public static void main(String[] args){
@@ -296,19 +290,9 @@ public class RestaurantGUI extends CenterFrame {
             this.theRestaurant = theRestaurant;
          }
          public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-            //System.out.println(e.getActionCommand());
-            switch(e.getActionCommand()) {
-=======
-
-<<<<<<< HEAD
             String eventCommand = e.getActionCommand();
-
-            switch(eventCommand) {
->>>>>>> origin/master
-=======
             switch(e.getActionCommand()) {
->>>>>>> origin/master
+
                case "Status":
                   outputTextArea.append(theRestaurant.toString() + "\n\n");
                break;
@@ -321,20 +305,15 @@ public class RestaurantGUI extends CenterFrame {
                  doSortWork(theRestaurant);
                break;
 
-<<<<<<< HEAD
                case "Help":
-<<<<<<< HEAD
                   outputTextArea.append("Sort Fields: \n");
                   outputTextArea.append("1. Item Name(asc) \n 2. Item profit (desc) \n 3. Item Avg Rating (desc) \n");
                   outputTextArea.append("Sort algorithms: \n"); 
                   outputTextArea.append("1. Selection Sort \n 2. Insertion Sort \n\n");
-=======
+               break;
 
->>>>>>> origin/master
-=======
                case "help":
 
->>>>>>> origin/master
                break;
 
                case "+":
@@ -357,17 +336,11 @@ public class RestaurantGUI extends CenterFrame {
                  // doOrderItem(theRestaurant);
                break;
 
-<<<<<<< HEAD
                case "Rate Item":
-<<<<<<< HEAD
-
-=======
                   doRateItem(theRestaurant);
->>>>>>> origin/master
-=======
-               case "Raise Item":
+               break;
 
->>>>>>> origin/master
+               case "Raise Item":
                break;
 
                case "Update Price":
@@ -453,8 +426,7 @@ public class RestaurantGUI extends CenterFrame {
          outputTextArea.append(name + " unsuccessfully removed from menu.\n\n");
       }
    }
-    
-<<<<<<< HEAD
+
    // private static void doActivateItem(Restaurant rest) {
    //    System.out.println("Processing activate...");
    //    String choice = key.readString("Activate all? (y/n): ");
@@ -505,8 +477,7 @@ public class RestaurantGUI extends CenterFrame {
    //          System.out.println("Invalid choice. Need y or n.");
    //      }
    //  }
-<<<<<<< HEAD
-=======
+
    /**
     * Activates either the specified item or all items.
     * @param rest Restaurant object to be written.
@@ -535,8 +506,6 @@ public class RestaurantGUI extends CenterFrame {
          outputTextArea.append("Activated all items on menu.\n\n");
       }
    }
->>>>>>> origin/master
-=======
     
    //  private static void doActivateItem(Restaurant rest)
    //  {
@@ -564,7 +533,6 @@ public class RestaurantGUI extends CenterFrame {
    //          System.out.println("Invalid choice.  Need y or n.");
    //      }
    //  }
->>>>>>> origin/master
     
    //  private static void doDiscontinueItem(Restaurant rest)
    //  {
