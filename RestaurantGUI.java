@@ -10,8 +10,12 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
+import java.text.*;
 
 public class RestaurantGUI extends CenterFrame {
+
+   private static final DecimalFormat FMT = new DecimalFormat("$#,##0.00");
+
 	public static void main(String[] args){
       String name = ""; String fileName = ""; Boolean isObject;
 
@@ -249,7 +253,7 @@ public class RestaurantGUI extends CenterFrame {
       orderBtn = new JButton("Order");
       orderBtn.addActionListener(new ButtonListener(theRestaurant));
 
-      rateItemBtn = new JButton("Raise Item");
+      rateItemBtn = new JButton("Rate Item");
       rateItemBtn.addActionListener(new ButtonListener(theRestaurant));
 
       updatePriceBtn = new JButton("Update Price");
@@ -282,6 +286,9 @@ public class RestaurantGUI extends CenterFrame {
       pack();
    }
 
+   /**
+    * Button action listener class.
+    */
    private class ButtonListener implements ActionListener {
          private Restaurant theRestaurant;
 
@@ -291,6 +298,9 @@ public class RestaurantGUI extends CenterFrame {
          public void actionPerformed(ActionEvent e) {
             //System.out.println(e.getActionCommand());
             switch(e.getActionCommand()) {
+            String eventCommand = e.getActionCommand();
+
+            switch(eventCommand) {
                case "Status":
                   outputTextArea.append(theRestaurant.toString() + "\n\n");
                break;
@@ -319,31 +329,32 @@ public class RestaurantGUI extends CenterFrame {
                break;
 
                case "Activate":
-                //  doActivateItem(theRestaurant);
+                  doActivateItem(theRestaurant);
                break;
 
                case "Discontinue":
-                  //doDiscontinueItem(theRestaurant);
+                  doDiscontinueItem(theRestaurant);
                break;
 
                case "Order":
-                 // doOrderItem(theRestaurant);
+                  doOrderItem(theRestaurant);
                break;
 
                case "Rate Item":
 
+                  doRateItem(theRestaurant);
                break;
 
                case "Update Price":
-                 // doUpdatePrice(theRestaurant);
+                  doUpdatePrice(theRestaurant);
                break;
 
                case "Average Rating":
-                  //doAverageItemRating(theRestaurant);
+                  doAverageItemRating(theRestaurant);
                break;
 
                case "Write File":
-                 // doWriteFile(theRestaurant);
+                  doWriteFile(theRestaurant);
                break;
 
                default:
@@ -468,117 +479,238 @@ public class RestaurantGUI extends CenterFrame {
    //          System.out.println("Invalid choice. Need y or n.");
    //      }
    //  }
+   /**
+    * Activates either the specified item or all items.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doActivateItem(Restaurant rest)
+   {
+      outputTextArea.append("Processing activate...\n");
+      Boolean choice = allItemsCB.isSelected();
+
+      if (!choice) {
+         String name = itemName.getText().trim();
+
+         if (name.equals(null) || name.equals("")) {
+            outputTextArea.append("Non-empty item name required.\n\n");
+            return;
+         }
+
+         if (rest.activate(name)) {
+            outputTextArea.append(name + " successfully activated on menu.\n\n");
+         } else {
+            outputTextArea.append(name + " unsuccessfully activated on menu.\n\n");
+         }
+      } else {
+         rest.activate();
+         outputTextArea.append("Activated all items on menu.\n\n");
+      }
+   }
     
-   //  private static void doUpdatePrice(Restaurant rest)
-   //  {
-   //      System.out.println("Processing price update...");
-   //      int percent = key.readInt("Please enter the price change percentage. ");
-   //      String wholesale = key.readString("Wholesale? (y/anything else): ");
-   //      boolean isWholesale = false;
-   //      if (wholesale.equalsIgnoreCase("y"))
-   //      {
-   //          isWholesale = true;
-   //      }
-   //      String choice = key.readString("Update all prices? (y/n): ");
-   //      if (choice.equalsIgnoreCase("n"))
-   //      {
-   //          String name = key.readString("Please enter the name of the item to have its price changed. ");
-   //          if (rest.updatePrice(isWholesale, name, percent))
-   //          {
-   //              System.out.println("Price for " + name + " successfully changed.");
-   //          }
-   //          else
-   //          {
-   //              System.out.println("Price for " + name + " unsuccessfully changed.");
-   //          }
-   //      }
-   //      else if (choice.equalsIgnoreCase("y"))
-   //      {
-   //          if (rest.updatePrice(isWholesale, percent))
-   //          {
-   //              System.out.println("Successfully changed prices for all items on menu.");
-   //          }
-   //          else
-   //          {
-   //              System.out.println("Unsuccessfully changed prices for all items on menu.");
-   //          }
-   //      }
-   //      else
-   //      {
-   //          System.out.println("Invalid choice. Need y or n.");
-   //      }
-   //  }
+   /**
+    * Discontinues either the specified item or all items.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doDiscontinueItem(Restaurant rest) {
+      outputTextArea.append("Processing discontinue...\n");
+      Boolean choice = allItemsCB.isSelected();
+
+      if (!choice) {
+         String name = itemName.getText().trim();
+
+         if (name.equals(null) || name.equals("")) {
+            outputTextArea.append("Non-empty item name required.\n\n");
+            return;
+         }
+
+         if (rest.discontinue(name)) {
+            outputTextArea.append(name + " successfully discontinued on menu.\n\n");
+         } else {
+            outputTextArea.append(name + " unsuccessfully discontinued on menu.\n\n");
+         }
+      } else {
+         rest.discontinue();
+         outputTextArea.append("Discontinued all items on menu.\n\n");
+      }
+   }
     
-   //  private static void doRateItem(Restaurant rest)
-   //  {
-   //      System.out.println("Processing item rating...");
-   //      String itemName = key.readString("Please enter the item name. ");
-   //      String reviewerName = key.readString("Please enter the reviewer name. ");
-   //      String date = key.readString("Please enter the date (mm/dd/yyyy). ");
-   //      int rating = key.readInt("Please enter the rating. ");
-   //      try
-   //      {
-   //          boolean success = rest.addRating(itemName, reviewerName, date, rating);
-   //          if (success)
-   //          {
-   //              System.out.println("Rating successfully added for " + itemName);
-   //          }
-   //          else
-   //          {
-   //              System.out.println("Rating unsuccessfully added for " + itemName);
-   //          }
-   //      }
-   //      catch (RestaurantException re)
-   //      {
-   //          System.out.println(re.getMessage());
-   //          System.out.println("Rating unsuccessfully added for " + itemName);
-   //      }
-   //  }
+   /**
+    * Updates the price of either the specified item or all items by the 
+    * specified percentage.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doUpdatePrice(Restaurant rest) {
+
+      outputTextArea.append("Processing price update...\n\n");
+
+      percentTxt = priceChange.getText().trim();
+
+      if (percentTxt.equals(null) || percentTxt.equals("")) {
+         outputTextArea.append("Non-empty percent required.\n\n");
+      }
+
+      int percent = Integer.parseInt(percentTxt);
+      boolean isWholesale = wholesalePriceCB.isSelected();
+      boolean updateAllItems = allItemsCB.isSelected();
+
+      if (!updateAllItems) {
+         String name = itemName.getText().trim();
+
+         if (name.equals(null) || name.equals("")) {
+            outputTextArea.append("Non-empty item name required.\n\n");
+            return;
+         }
+
+         if (rest.updatePrice(isWholesale, name, percent)) {
+            outputTextArea.append("Price for " + name + " successfully changed.\n\n");
+         } else {
+            outputTextArea.append("Price for " + name + " unsuccessfully changed.\n\n");
+         }
+      } else {
+         if (rest.updatePrice(isWholesale, percent)) {
+            outputTextArea.append("Successfully changed prices for all items on menu.\n\n");
+         } else {
+            outputTextArea.append("Unsuccessfully changed prices for all items on menu.\n\n");
+         }
+      }
+   }
     
-   //  private static void doOrderItem(Restaurant rest)
-   //  {
-   //      System.out.println("Processing item ordering...");
-   //      String itemName = key.readString("Please enter the item name. ");
-   //      int numOrders = key.readInt("Please enter the number of orders. ");
-   //      boolean success = rest.order(itemName, numOrders);
-   //      if (success)
-   //      {
-   //          System.out.println(numOrders + " of " + itemName + " successfully processed.");
-   //      }
-   //      else
-   //      {
-   //          System.out.println(numOrders + " of " + itemName + " unsuccessfully processed.");
-   //      }
-   //  }
+   /**
+    * Adds a new rating for the specified item.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doRateItem(Restaurant rest) {
+      outputTextArea.append("Processing item rating...\n\n");
+      String itemNameTxt = itemName.getText().trim();
+      String reviewerNameTxt = reviewerName.getText().trim();
+      String date = reviewDate.getText().trim();
+
+      String ratingTxt = reviewerRating.getText().trim();
+
+      if (ratingTxt.equals(null) || ratingTxt.equals("")) {
+         outputTextArea.append("Non-empty rating required (1 - 5).\n\n")
+         return;
+      }
+
+      int rating = Integer.parseInt(ratingTxt);
+
+      if (itemNameTxt.equals(null) || itemNameTxt.equals("")) {
+         outputTextArea.append("Non-empty item name required.\n\n")
+         return;
+      }
+
+      if (reviewerNameTxt.equals(null) || reviewerNameTxt.equals("")) {
+         outputTextArea.append("Non-empty reviewer name required.\n\n")
+         return;
+      }
+
+      if (date.equals(null) || date.equals("")) {
+         outputTextArea.append("Non-empty date required (mm/dd/yyyy).\n\n")
+         return;
+      }      
+
+      try {
+         boolean success = rest.addRating(itemNameTxt, reviewerNameTxt, date, rating);
+         if (success) {
+            outputTextArea.append("Rating successfully added for " + itemNameTxt + "\n\n");
+         } else {
+            outputTextArea.append("Rating unsuccessfully added for " + itemNameTxt + "\n\n");
+         }
+      } catch (RestaurantException re) {
+         outputTextArea.append(re.getMessage() + "\n");
+         outputTextArea.append("Rating unsuccessfully added for " + itemNameTxt + "\n\n");
+      }
+   }
     
-   //  private static void doProfit(Restaurant rest)
-   //  {
-   //      System.out.println("Processing profit...");
-   //      System.out.println("The total profit of restaurant " + rest.getName() + " is " + FMT.format(rest.getTotalProfit()) + ".");
-   //  }
+   /**
+    * Orders a specified quantity of the specified item.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doOrderItem(Restaurant rest) {
+      outputTextArea.append("Processing item ordering...\n");
+      String itemNameTxt = itemName.getText().trim();
+      String numOrdersTxt = numOrders.getText().trim();
+
+      if (itemNameTxt.equals(null) || itemNameTxt.equals("")) {
+         outputTextArea.append("Non-empty item name required.");
+         return;
+      }
+
+      if (numOrdersTxt.equals(null) || numOrdersTxt.equals("")) {
+         outputTextArea.append("Non-empty number of orders required.");
+         return;
+      }
+
+      int numOrdersVal = Integer.parseInt(numOrdersTxt);
+      boolean success = rest.order(itemNameTxt, numOrdersVal);
+
+      if (numOrdersVal > 1)
+         itemNameTxt += "s";
+
+      if (success)
+      {
+         outputTextArea.append(numOrdersVal + " " + itemNameTxt + " successfully ordered.\n\n");
+      }
+      else
+      {
+         outputTextArea.append(numOrdersVal + " " + itemNameTxt + " unsuccessfully ordered.\n\n");
+      }
+   }
+
+   /**
+    * Calculates and prints the profit for the provided restaurant.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doProfit(Restaurant rest)
+   {
+     System.out.println("Processing profit...");
+     System.out.println("The total profit of restaurant " + rest.getName() + " is " + FMT.format(rest.getTotalProfit()) + ".");
+   }
     
-   //  private static void doAverageItemRating(Restaurant rest)
-   //  {
-   //      System.out.println("Processing average item rating...");
-   //      System.out.println("The average rating for menu items at restaurant " + rest.getName() + " is " + FMT.format(rest.getAverageItemRating()).substring(1) + ".");
-   //  }
+   /**
+    * Calculates and prints the average item rating for the provided restaurant.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doAverageItemRating(Restaurant rest) {
+      outputTextArea.append("Processing average item rating...\r\n");
+      outputTextArea.append("The average rating for menu items at restaurant " + rest.getName() + " is " + FMT.format(rest.getAverageItemRating()).substring(1) + ".\r\n");
+   }
     
-   //  private static void doWriteFile(Restaurant rest)
-   //  {
-   //      //System.out.println("Processing write file...");
-   //      String fileName = key.readString("Please enter the name of the output file.");
-   //      boolean isObject = key.readString("Is the file to be an object file? (y/anything else): ").equalsIgnoreCase("Y") ? true : false;
-   //      try
-   //      {
-   //          rest.writeToFile(fileName, isObject);
-   //          //System.out.println((isObject ? "Object" : "Text") + " file " + fileName + " written successfully.");
-   //      }
-   //      catch (RestaurantException re)
-   //      {
-   //          System.out.println(re.getMessage());
-   //          //System.out.println("File written unsuccessfully.");
-   //      }        
-   //  }
+
+   /**
+    * Writes the current restaurant data to a file. Will write to text files or 
+    * object files.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
+   private void doWriteFile(Restaurant rest) {
+
+      String fileName = SimpleDialogs.stringInput("Enter output file name.", "Write File").trim();
+      boolean isObject = objectFileCB.isSelected();
+   
+      if (fileName.equals(null) || fileName.equals("")) {
+         outputTextArea.append("Non-empty filename required.\n\n");
+         return;
+      }
+
+      try
+      {
+         rest.writeToFile(fileName, isObject);
+         outputTextArea.append((isObject ? "Object" : "Text") + " file " + fileName + " written successfully." + "\r\n");
+      }
+      catch (RestaurantException re)
+      {
+         outputTextArea.append(re.getMessage() + "\r\n");
+         outputTextArea.append((isObject ? "Object" : "Text") + " file " + fileName + " could not be written." + "\r\n");
+      }        
+   }
     
    private void doSortWork(Restaurant rest) {
       //System.out.println("Processing sort...");
