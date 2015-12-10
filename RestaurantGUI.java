@@ -1,6 +1,6 @@
 /**
- *  This is going to be the GUI driver.
- *
+ * GUI/Driver for the Restaurant manager project.<br>
+ * ECE 2120 - Program 4
  *
  * @author Charlie Thomas and Timothy Porter 
  * @date Dec 10, 2015
@@ -36,9 +36,11 @@ public class RestaurantGUI extends CenterFrame {
       RestaurantGUI rg = new RestaurantGUI(800, 480, name, fileName, isObject);
 	}
 
+   // Panel instance variables
    private JPanel inputPanel;
    private JPanel buttonPanel;
 
+   // Label instance variables
    private JLabel reviewerNameLbl;
    private JLabel reviewerRatingLbl;
    private JLabel reviewDateLbl;
@@ -53,6 +55,7 @@ public class RestaurantGUI extends CenterFrame {
    private JLabel sortFieldLbl;
    private JLabel sortAlgorithmLbl;
 
+   // Text Field instance variables
    private JTextField reviewerName;
    private JTextField reviewerRating;
    private JTextField reviewDate;
@@ -66,6 +69,7 @@ public class RestaurantGUI extends CenterFrame {
    private JTextField sortField;
    private JTextField sortAlgorithm;
 
+   // Button instance variables
    private JButton statusBtn;
    private JButton allItemNamesBtn;
    private JButton sortBtn;
@@ -81,12 +85,15 @@ public class RestaurantGUI extends CenterFrame {
    private JButton avgRatingBtn;
    private JButton writeFileBtn;
 
+   // Combo Box instance variables
    private JComboBox categoryCB;
 
+   // Check Box instance variables
    private JCheckBox allItemsCB;
    private JCheckBox wholesalePriceCB;
    private JCheckBox objectFileCB;
 
+   // Scrollable Text Area instance variables
    private JTextArea outputTextArea;
    private JScrollPane outputScrollPane;
 
@@ -107,6 +114,13 @@ public class RestaurantGUI extends CenterFrame {
       setVisible(true);
    }
 
+   /**
+    * GUI setup method here.
+    * @param width Width of the window to be created.
+    * @param height Height of the window to be created.
+    * @param theRestaurant Restaurant object to be used.
+    * @return None.
+    */
    private void setUp(int width, int height, Restaurant theRestaurant) {
       setBackground(Color.white);
 
@@ -290,78 +304,95 @@ public class RestaurantGUI extends CenterFrame {
     * Button action listener class.
     */
    private class ButtonListener implements ActionListener {
-         private Restaurant theRestaurant;
+      // Restaurant instance to be used.
+      private Restaurant theRestaurant;
 
-         public ButtonListener(Restaurant theRestaurant) {
-            this.theRestaurant = theRestaurant;
+      /**
+       * Button listener contructor.
+       * @param theRestaurant Restaurant object to be used.
+       * @return None.
+       */
+      public ButtonListener(Restaurant theRestaurant) {
+         this.theRestaurant = theRestaurant;
+      }
+
+      /**
+       * actionPerformed method definition to fulfil the ActionListener interface.
+       * @param e ActionEvent object containing the event information.
+       * @return None.
+       */
+      public void actionPerformed(ActionEvent e) {
+         String eventCommand = e.getActionCommand();
+
+         switch(eventCommand) {
+
+            case "Status":
+               outputTextArea.append(theRestaurant.toString() + "\n\n");
+               break;
+
+            case "All Item Names":
+              doNames(theRestaurant);
+               break;
+
+            case "Sort":
+              doSortWork(theRestaurant);
+               break;
+
+            case "Help":
+               outputTextArea.append("Sort Fields: \n");
+               outputTextArea.append("1. Item Name(asc) \n 2. Item profit (desc) \n 3. Item Avg Rating (desc) \n");
+               outputTextArea.append("Sort algorithms: \n"); 
+               outputTextArea.append("1. Selection Sort \n 2. Insertion Sort \n\n");
+
+               break;
+
+            case "+":
+               doAddItem(theRestaurant);
+               break;
+
+            case "-":
+               doRemoveItem(theRestaurant);
+               break;
+
+            case "Activate":
+               doActivateItem(theRestaurant);
+               break;
+
+            case "Discontinue":
+               doDiscontinueItem(theRestaurant);
+               break;
+
+            case "Order":
+               doOrderItem(theRestaurant);
+               break;
+
+            case "Rate Item":
+               doRateItem(theRestaurant);
+               break;
+
+            case "Update Price":
+               doUpdatePrice(theRestaurant);
+               break;
+
+            case "Average Rating":
+               doAverageItemRating(theRestaurant);
+               break;
+
+            case "Write File":
+               doWriteFile(theRestaurant);
+               break;
+
+            default:
+               break; 
          }
-         public void actionPerformed(ActionEvent e) {
-            String eventCommand = e.getActionCommand();
-
-            switch(eventCommand) {
-
-               case "Status":
-                  outputTextArea.append(theRestaurant.toString() + "\n\n");
-                  break;
-
-               case "All Item Names":
-                 doNames(theRestaurant);
-                  break;
-
-               case "Sort":
-                 doSortWork(theRestaurant);
-                  break;
-
-               case "Help":
-                  outputTextArea.append("Sort Fields: \n");
-                  outputTextArea.append("1. Item Name(asc) \n 2. Item profit (desc) \n 3. Item Avg Rating (desc) \n");
-                  outputTextArea.append("Sort algorithms: \n"); 
-                  outputTextArea.append("1. Selection Sort \n 2. Insertion Sort \n\n");
-
-                  break;
-
-               case "+":
-                  doAddItem(theRestaurant);
-                  break;
-
-               case "-":
-                  doRemoveItem(theRestaurant);
-                  break;
-
-               case "Activate":
-                  doActivateItem(theRestaurant);
-                  break;
-
-               case "Discontinue":
-                  doDiscontinueItem(theRestaurant);
-                  break;
-
-               case "Order":
-                  doOrderItem(theRestaurant);
-                  break;
-
-               case "Rate Item":
-                  doRateItem(theRestaurant);
-                  break;
-
-               case "Update Price":
-                  doUpdatePrice(theRestaurant);
-                  break;
-
-               case "Average Rating":
-                  doAverageItemRating(theRestaurant);
-                  break;
-
-               case "Write File":
-                  doWriteFile(theRestaurant);
-                  break;
-
-               default:
-                  break; 
-            }
-         }
+      }
    }
 
+   /**
+    * Prints all the names of the provided restaurant.
+    * @param rest Restaurant object to be used.
+    * @return None.
+    */
    private void doNames(Restaurant rest) {
       ArrayList<String> names = rest.getAllItemNames();
       outputTextArea.append("The restaurant item names are as follows: \n");
@@ -371,6 +402,11 @@ public class RestaurantGUI extends CenterFrame {
       outputTextArea.append("\n");        
    }
     
+   /**
+    * Adds the specified item using all provided data.
+    * @param rest Restaurant object to be used.
+    * @return None.
+    */
    private void doAddItem(Restaurant rest) {
       if(itemName.getText().trim().equals("")       || servingSize.getText().trim().equals("") || 
          numCalories.getText().trim().equals("")    || retailPrice.getText().trim().equals("") || 
@@ -409,6 +445,11 @@ public class RestaurantGUI extends CenterFrame {
       }
    }
     
+   /**
+    * Removes the specified item.
+    * @param rest Restaurant object to be used.
+    * @return None.
+    */
    private void doRemoveItem(Restaurant rest) {
       if(itemName.getText().trim().equals("")) {
          outputTextArea.append("Need field for name! \n\n");
@@ -430,7 +471,7 @@ public class RestaurantGUI extends CenterFrame {
 
    /**
     * Activates either the specified item or all items.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doActivateItem(Restaurant rest)
@@ -459,7 +500,7 @@ public class RestaurantGUI extends CenterFrame {
     
    /**
     * Discontinues either the specified item or all items.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doDiscontinueItem(Restaurant rest) {
@@ -488,17 +529,16 @@ public class RestaurantGUI extends CenterFrame {
    /**
     * Updates the price of either the specified item or all items by the 
     * specified percentage.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doUpdatePrice(Restaurant rest) {
-
-      outputTextArea.append("Processing price update...\n\n");
 
       String percentTxt = priceChange.getText().trim();
 
       if (percentTxt.equals(null) || percentTxt.equals("")) {
          outputTextArea.append("Non-empty percent required.\n\n");
+         return;
       }
 
       int percent = Integer.parseInt(percentTxt);
@@ -529,7 +569,7 @@ public class RestaurantGUI extends CenterFrame {
     
    /**
     * Adds a new rating for the specified item.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doRateItem(Restaurant rest) {
@@ -577,7 +617,7 @@ public class RestaurantGUI extends CenterFrame {
     
    /**
     * Orders a specified quantity of the specified item.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doOrderItem(Restaurant rest) {
@@ -613,7 +653,7 @@ public class RestaurantGUI extends CenterFrame {
 
    /**
     * Calculates and prints the profit for the provided restaurant.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doProfit(Restaurant rest)
@@ -624,7 +664,7 @@ public class RestaurantGUI extends CenterFrame {
     
    /**
     * Calculates and prints the average item rating for the provided restaurant.
-    * @param rest Restaurant object to be written.
+    * @param rest Restaurant object to be used.
     * @return None.
     */
    private void doAverageItemRating(Restaurant rest) {
@@ -661,8 +701,12 @@ public class RestaurantGUI extends CenterFrame {
       }        
    }
     
+   /**
+    * Sorts the menu items based on the provided sort field and sort algorithm.
+    * @param rest Restaurant object to be written.
+    * @return None.
+    */
    private void doSortWork(Restaurant rest) {
-      //System.out.println("Processing sort...");
       if( sortField.getText().trim().equals("") || sortAlgorithm.getText().trim().equals("")) {
          outputTextArea.append("Need non-null input!\n");
          return;
