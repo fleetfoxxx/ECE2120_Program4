@@ -1,9 +1,12 @@
 /**
- *  This is going to be the GUI driver.
+ *  RestaurantGUI is the graphical interface driver used in parallel with the Restaurant manager
+ *  heirarchy. This GUI uses a multitude of different graphic objects from the swing and event 
+ *  libraries in order to supply push buttons, combo boxes, text fields, scrollable text boxes,
+ *  and check boxes. The restaurant manager supplies all methods needed to manipulate the restaurant 
+ *  created and the GUI simply acts as the controller for these methods.
  *
- *
- * @author Charlie Thomas and Timothy Porter 
- * @date Dec 10, 2015
+ *  @author Charlie Thomas and Timothy Porter 
+ *  @date Dec 10, 2015
  */
 
 import java.awt.*;
@@ -90,6 +93,16 @@ public class RestaurantGUI extends CenterFrame {
    private JTextArea outputTextArea;
    private JScrollPane outputScrollPane;
 
+
+   /**
+    * The constructor for the graphical interface.
+    * @param width Width of the GUI!
+    * @param height Height of the GUI!
+    * @param name Name of the restaurant!
+    * @param fileName FIle to be read in!
+    * @param isObject Is the file and object or a text?
+    * @return None.
+    */
    public RestaurantGUI(int width, int height, String name, String fileName, Boolean isObject) {
       super(width, height, name);
       Restaurant theRestaurant;
@@ -433,9 +446,7 @@ public class RestaurantGUI extends CenterFrame {
     * @param rest Restaurant object to be written.
     * @return None.
     */
-   private void doActivateItem(Restaurant rest)
-   {
-      outputTextArea.append("Processing activate...\n");
+   private void doActivateItem(Restaurant rest) {
       Boolean choice = allItemsCB.isSelected();
 
       if (!choice) {
@@ -463,7 +474,6 @@ public class RestaurantGUI extends CenterFrame {
     * @return None.
     */
    private void doDiscontinueItem(Restaurant rest) {
-      outputTextArea.append("Processing discontinue...\n");
       Boolean choice = allItemsCB.isSelected();
 
       if (!choice) {
@@ -493,12 +503,11 @@ public class RestaurantGUI extends CenterFrame {
     */
    private void doUpdatePrice(Restaurant rest) {
 
-      outputTextArea.append("Processing price update...\n\n");
-
       String percentTxt = priceChange.getText().trim();
 
       if (percentTxt.equals(null) || percentTxt.equals("")) {
          outputTextArea.append("Non-empty percent required.\n\n");
+         return;
       }
 
       int percent = Integer.parseInt(percentTxt);
@@ -533,7 +542,6 @@ public class RestaurantGUI extends CenterFrame {
     * @return None.
     */
    private void doRateItem(Restaurant rest) {
-      outputTextArea.append("Processing item rating...\n\n");
       String itemNameTxt = itemName.getText().trim();
       String reviewerNameTxt = reviewerName.getText().trim();
       String date = reviewDate.getText().trim();
@@ -581,7 +589,6 @@ public class RestaurantGUI extends CenterFrame {
     * @return None.
     */
    private void doOrderItem(Restaurant rest) {
-      outputTextArea.append("Processing item ordering...\n");
       String itemNameTxt = itemName.getText().trim();
       String numOrdersTxt = numOrders.getText().trim();
 
@@ -618,7 +625,6 @@ public class RestaurantGUI extends CenterFrame {
     */
    private void doProfit(Restaurant rest)
    {
-     System.out.println("Processing profit...");
      System.out.println("The total profit of restaurant " + rest.getName() + " is " + FMT.format(rest.getTotalProfit()) + ".");
    }
     
@@ -662,7 +668,6 @@ public class RestaurantGUI extends CenterFrame {
    }
     
    private void doSortWork(Restaurant rest) {
-      //System.out.println("Processing sort...");
       if( sortField.getText().trim().equals("") || sortAlgorithm.getText().trim().equals("")) {
          outputTextArea.append("Need non-null input!\n");
          return;
