@@ -134,35 +134,48 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
 
       reviewerName = new JTextField();
       reviewerName.setPreferredSize(new Dimension(150, 24));
+
       reviewerRating = new JTextField();
       reviewerRating.setPreferredSize(new Dimension(150, 24));
+
       reviewDate = new JTextField();
       reviewDate.setPreferredSize(new Dimension(150, 24));
+
       itemName = new JTextField();
       itemName.setPreferredSize(new Dimension(150, 24));
+
       numOrders = new JTextField();
       numOrders.setPreferredSize(new Dimension(150, 24));
+
       servingSize = new JTextField();
       servingSize.setPreferredSize(new Dimension(150, 24));
+
       numCalories = new JTextField();
       numCalories.setPreferredSize(new Dimension(150, 24));
+
       retailPrice = new JTextField();
       retailPrice.setPreferredSize(new Dimension(150, 24));
+
       wholesalePrice = new JTextField();
       wholesalePrice.setPreferredSize(new Dimension(150, 24));
+
       priceChange = new JTextField();
       priceChange.setPreferredSize(new Dimension(150, 24));
+
       sortField = new JTextField();
       sortField.setPreferredSize(new Dimension(150, 24));
+
       sortAlgorithm = new JTextField();
       sortAlgorithm.setPreferredSize(new Dimension(150, 24));
 
-      categoryCB = new JComboBox();
+      String categories[] = {"MAIN", "DESSERT", "SIDE", "DRINK"};
+
+      categoryCB = new JComboBox(categories);
       categoryCB.setPreferredSize(new Dimension(150, 24));
 
-      allItemsCB = new JCheckBox();
-      wholesalePriceCB = new JCheckBox();
-      objectFileCB = new JCheckBox();
+      allItemsCB = new JCheckBox("All Items");
+      wholesalePriceCB = new JCheckBox("Wholesale Price");
+      objectFileCB = new JCheckBox("Object File");
 
       inputPanelBag.fillCellAlignWithinCell(1, 1, GridBagConstraints.WEST, reviewerNameLbl);
       inputPanelBag.fillCellAlignWithinCell(2, 1, GridBagConstraints.WEST, reviewerRatingLbl);
@@ -192,9 +205,9 @@ public class RestaurantGUI extends CenterFrame implements ActionListener {
       inputPanelBag.fillCellAlignWithinCell(12, 2, GridBagConstraints.WEST, sortField);
       inputPanelBag.fillCellAlignWithinCell(13, 2, GridBagConstraints.WEST, sortAlgorithm);
 
-      // inputPanelBag.fillCellAlignWithinCell(14, 1, GridBagConstraints.WEST, allItemsRB);
-      // inputPanelBag.fillCellAlignWithinCell(14, 2, GridBagConstraints.WEST, allItemsRB);
-      // inputPanelBag.fillCellAlignWithinCell(15, 1, GridBagConstraints.WEST, allItemsRB);
+      inputPanelBag.fillCellAlignWithinCell(14, 1, GridBagConstraints.WEST, allItemsCB);
+      inputPanelBag.fillCellAlignWithinCell(14, 2, GridBagConstraints.WEST, wholesalePriceCB);
+      inputPanelBag.fillCellAlignWithinCell(15, 1, GridBagConstraints.WEST, objectFileCB);
 
       // scroll panel
       outputTextArea = new JTextArea(30, 75);
