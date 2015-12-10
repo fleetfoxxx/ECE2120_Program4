@@ -10,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class RestaurantGUI extends CenterFrame implements ActionListener {
+public class RestaurantGUI extends CenterFrame {
 	public static void main(String[] args){
       String name = ""; String fileName = ""; Boolean isObject;
 
