@@ -73,7 +73,7 @@ public class SimpleDialogs
    /**
     *  Displays a standard input box. <br>
     *  Preconditions: The message to be displayed requesting input and the title of the window must be specified.
-    *                  Also, a String array representing the possible choices to be displayed in a drop down menu must be specified. <br>
+                      Also, a String array representing the possible choices to be displayed in a drop down menu must be specified. <br>
     *  Postconditions: An input box with the requested message, title, and drop down menu choices is displayed. <br>
     *                  If O.K. is selected by the user, the String in the input box text area is returned (could be the empty string). <br>
     *                  If Cancel is selected by the user, the empty string is returned. <br>
