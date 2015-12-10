@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.text.*;
+import java.util.*;
 
 public class RestaurantGUI extends CenterFrame {
 
@@ -102,7 +103,7 @@ public class RestaurantGUI extends CenterFrame {
       }
 
       setResizable(true);
-      setUp(width, height,theRestaurant);
+      setUp(width, height, theRestaurant);
       setVisible(true);
    }
 
@@ -295,131 +296,138 @@ public class RestaurantGUI extends CenterFrame {
             this.theRestaurant = theRestaurant;
          }
          public void actionPerformed(ActionEvent e) {
-
             String eventCommand = e.getActionCommand();
 
             switch(eventCommand) {
+
                case "Status":
-                  outputTextArea.append(theRestaurant.toString());
-               break;
+                  outputTextArea.append(theRestaurant.toString() + "\n\n");
+                  break;
 
                case "All Item Names":
-                 // doNames(theRestaurant);
-               break;
+                 doNames(theRestaurant);
+                  break;
 
                case "Sort":
-                 // doSortWork(theRestaurant);
-               break;
+                 doSortWork(theRestaurant);
+                  break;
 
                case "Help":
+                  outputTextArea.append("Sort Fields: \n");
+                  outputTextArea.append("1. Item Name(asc) \n 2. Item profit (desc) \n 3. Item Avg Rating (desc) \n");
+                  outputTextArea.append("Sort algorithms: \n"); 
+                  outputTextArea.append("1. Selection Sort \n 2. Insertion Sort \n\n");
 
-               break;
+                  break;
 
                case "+":
-                //  doAddItem(theRestaurant);
-               break;
+                  doAddItem(theRestaurant);
+                  break;
 
                case "-":
-                 // doRemoveItem(theRestaurant);
-               break;
+                  doRemoveItem(theRestaurant);
+                  break;
 
                case "Activate":
                   doActivateItem(theRestaurant);
-               break;
+                  break;
 
                case "Discontinue":
                   doDiscontinueItem(theRestaurant);
-               break;
+                  break;
 
                case "Order":
                   doOrderItem(theRestaurant);
-               break;
+                  break;
 
                case "Rate Item":
                   doRateItem(theRestaurant);
-               break;
+                  break;
 
                case "Update Price":
                   doUpdatePrice(theRestaurant);
-               break;
+                  break;
 
                case "Average Rating":
                   doAverageItemRating(theRestaurant);
-               break;
+                  break;
 
                case "Write File":
                   doWriteFile(theRestaurant);
-               break;
+                  break;
 
                default:
-               break; 
+                  break; 
             }
          }
    }
 
-   // private static void doNames(Restaurant rest)
-   //  {
-   //      ArrayList<String> names = rest.getAllItemNames();
-   //      System.out.println("The restaurant item names are as follows:");
-   //      for (String name: names)
-   //      {
-   //          System.out.println(name);
-   //      }        
-   //  }
+   private void doNames(Restaurant rest) {
+      ArrayList<String> names = rest.getAllItemNames();
+      outputTextArea.append("The restaurant item names are as follows: \n");
+      for (String name: names){
+         outputTextArea.append(name + "\n");
+      }
+      outputTextArea.append("\n");        
+   }
     
-   //  private static void doAddItem(Restaurant rest)
-   //  {
-   //      System.out.println("Processing add...");
-   //      String name = key.readString("Please enter the item name. ");
-   //      MenuCategory[] categories = MenuCategory.values();
-   //      System.out.println("Category choices:");
-   //      for (MenuCategory mc : categories)
-   //      {
-   //          System.out.println(" " + mc);
-   //      }
-   //      String cat = key.readString("Please enter the item category. ");
-   //      try
-   //      {
-   //         MenuCategory category = MenuCategory.valueOf(cat.toUpperCase());
-   //         int servingSize = key.readInt("Please enter the serving size in ounces. ");
-   //         int numCalories = key.readInt("Please enter the number of calories. ");          
-   //         double price = key.readDouble("Please enter the retail price. ");
-   //         double wholesale = key.readDouble("Please enter the wholesale cost. ");
-   //         boolean success = rest.addToMenu(name, category, servingSize, numCalories, price, wholesale);
-   //         if (success)
-   //         {
-   //             System.out.println("Item " + name + " added successfully.");
-   //         }
-   //         else
-   //         {
-   //             System.out.println("Item " + name + " not added successfully.");
-   //         }
-   //      }
-   //      catch (RestaurantException re)
-   //      {
-   //          System.out.println(re.getMessage());
-   //          System.out.println("Item " + name + " not added to menu.");
-   //      }
-   //      catch (IllegalArgumentException iae)
-   //      {
-   //          System.out.println("Invalid category -- item " + name + " not added to menu.");
-   //      }
-   //  }
+   private void doAddItem(Restaurant rest) {
+      if(itemName.getText().trim().equals("")       || servingSize.getText().trim().equals("") || 
+         numCalories.getText().trim().equals("")    || retailPrice.getText().trim().equals("") || 
+         wholesalePrice.getText().trim().equals("")) {
+         outputTextArea.append("Need fields for name, serving size, Calories, price, and wholesale price!\n\n");
+         return;
+      }
+
+      if(itemName.getText().trim().equals(null)       || servingSize.getText().trim().equals(null) || 
+         numCalories.getText().trim().equals(null)    || retailPrice.getText().trim().equals(null) || 
+         wholesalePrice.getText().trim().equals(null)) {
+         outputTextArea.append("Need fields for name, serving size, Calories, price, and wholesale price!");
+         return;
+      }
+
+      String name = itemName.getText().trim();
+      String cat = categoryCB.getSelectedItem().toString();
+      try{
+         MenuCategory category = MenuCategory.valueOf(cat.toUpperCase());
+         int serving = Integer.parseInt(servingSize.getText().trim());
+         int numCals = Integer.parseInt(numCalories.getText().trim());          
+         double price = Double.parseDouble(retailPrice.getText().trim());
+         double wholesale = Double.parseDouble(wholesalePrice.getText().trim());
+         boolean success = rest.addToMenu(name, category, serving, numCals, price, wholesale);
+         if (success) {
+            outputTextArea.append("Item " + name + " added successfully.\n\n");
+         }
+         else {
+            outputTextArea.append("Item " + name + " not added successfully.\n\n");
+         }
+      } catch (RestaurantException re) {
+         outputTextArea.append(re.getMessage() + "\n");
+         outputTextArea.append("Item " + name + " not added to menu.\n\n");
+      } catch (IllegalArgumentException iae) {
+         outputTextArea.append("Item " + name + " not added to menu due to invalid input (Needs category, retail price, wholesale price, name, and serving size).\n\n");
+      }
+   }
     
-   //  private static void doRemoveItem(Restaurant rest)
-   //  {
-   //      System.out.println("Processing remove...");
-   //      String name = key.readString("Please enter the name of the item to be removed from the menu. ");
-   //      if (rest.removeFromMenu(name))
-   //      {
-   //          System.out.println(name + " successfully removed from menu.");
-   //      }
-   //      else
-   //      {
-   //          System.out.println(name + " unsuccessfully removed from menu.");
-   //      }
-   //  }
-    
+   private void doRemoveItem(Restaurant rest) {
+      if(itemName.getText().trim().equals("")) {
+         outputTextArea.append("Need field for name! \n\n");
+         return;
+      }
+      if(itemName.getText().trim().equals(null)) {
+         outputTextArea.append("Need field for name! \n\n");
+         return;
+      }
+
+      String name = itemName.getText().trim();
+      if (rest.removeFromMenu(name)) {
+         outputTextArea.append(name + " successfully removed from menu.\n\n");
+      }
+      else {
+         outputTextArea.append(name + " unsuccessfully removed from menu.\n\n");
+      }
+   }   
+
    /**
     * Activates either the specified item or all items.
     * @param rest Restaurant object to be written.
@@ -487,7 +495,7 @@ public class RestaurantGUI extends CenterFrame {
 
       outputTextArea.append("Processing price update...\n\n");
 
-      percentTxt = priceChange.getText().trim();
+      String percentTxt = priceChange.getText().trim();
 
       if (percentTxt.equals(null) || percentTxt.equals("")) {
          outputTextArea.append("Non-empty percent required.\n\n");
@@ -533,24 +541,24 @@ public class RestaurantGUI extends CenterFrame {
       String ratingTxt = reviewerRating.getText().trim();
 
       if (ratingTxt.equals(null) || ratingTxt.equals("")) {
-         outputTextArea.append("Non-empty rating required (1 - 5).\n\n")
+         outputTextArea.append("Non-empty rating required (1 - 5).\n\n");
          return;
       }
 
       int rating = Integer.parseInt(ratingTxt);
 
       if (itemNameTxt.equals(null) || itemNameTxt.equals("")) {
-         outputTextArea.append("Non-empty item name required.\n\n")
+         outputTextArea.append("Non-empty item name required.\n\n");
          return;
       }
 
       if (reviewerNameTxt.equals(null) || reviewerNameTxt.equals("")) {
-         outputTextArea.append("Non-empty reviewer name required.\n\n")
+         outputTextArea.append("Non-empty reviewer name required.\n\n");
          return;
       }
 
       if (date.equals(null) || date.equals("")) {
-         outputTextArea.append("Non-empty date required (mm/dd/yyyy).\n\n")
+         outputTextArea.append("Non-empty date required (mm/dd/yyyy).\n\n");
          return;
       }      
 
@@ -653,42 +661,22 @@ public class RestaurantGUI extends CenterFrame {
       }        
    }
     
-   //  private static void doSortWork(Restaurant rest)
-   //  {
-   //      System.out.println("Processing sort...");
-   //      int sortField;
-   //      do
-   //      {
-   //          showSortFieldMenu();          
-   //          sortField = key.readInt("Enter the sort field: ");
-   //      } while (sortField < 1 || sortField > 3);
-   //      int sortAlg;
-   //      do
-   //      {
-   //          showSortAlgorithmMenu();
-   //          sortAlg = key.readInt("Enter the algorithm number: ");
-   //      } while (sortAlg < 1 || sortAlg > 2);
-   //      String result = rest.sort(sortField, sortAlg);
-   //      System.out.println("Sort results:\n" + result);
-   //  }
+   private void doSortWork(Restaurant rest) {
+      //System.out.println("Processing sort...");
+      if( sortField.getText().trim().equals("") || sortAlgorithm.getText().trim().equals("")) {
+         outputTextArea.append("Need non-null input!\n");
+         return;
+      }
+      if( sortField.getText().trim().equals(null) || sortAlgorithm.getText().trim().equals(null)) {
+         outputTextArea.append("Need non-null input!\n");
+         return;
+      }
 
-   //  private static void doSortWork(Restaurant rest)
-   //  {
-   //      System.out.println("Processing sort...");
-   //      int sortField;
-   //      do
-   //      {
-   //          showSortFieldMenu();          
-   //          sortField = key.readInt("Enter the sort field: ");
-   //      } while (sortField < 1 || sortField > 3);
-   //      int sortAlg;
-   //      do
-   //      {
-   //          showSortAlgorithmMenu();
-   //          sortAlg = key.readInt("Enter the algorithm number: ");
-   //      } while (sortAlg < 1 || sortAlg > 2);
-   //      String result = rest.sort(sortField, sortAlg);
-   //      System.out.println("Sort results:\n" + result);
-   //  }
+      int sortNum = Integer.parseInt(sortField.getText().trim());
+      int alg = Integer.parseInt(sortAlgorithm.getText().trim());
+
+      String result = rest.sort(sortNum, alg);
+      outputTextArea.append("Sort results:\n" + result +"\n");
+   }
     
 }
