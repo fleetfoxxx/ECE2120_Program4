@@ -222,19 +222,46 @@ public class RestaurantGUI extends CenterFrame {
       buttonPanel.setLayout(buttonPanelBag);
 
       statusBtn = new JButton("Status");
+      statusBtn.addActionListener(new ButtonListener());
+
       allItemNamesBtn = new JButton("All Item Names");
+      allItemNamesBtn.addActionListener(new ButtonListener());
+
       sortBtn = new JButton("Sort");
+      sortBtn.addActionListener(new ButtonListener());
+
       helpBtn = new JButton("Help");
+      helpBtn.addActionListener(new ButtonListener());
+
       addBtn = new JButton("+");
+      addBtn.addActionListener(new ButtonListener());
+
       removeBtn = new JButton("-");
+      addBtn.addActionListener(new ButtonListener());
+
       activateBtn = new JButton("Activate");
+      activateBtn.addActionListener(new ButtonListener());
+
       discontinueBtn = new JButton("Discontinue");
+      discontinueBtn.addActionListener(new ButtonListener());
+
       orderBtn = new JButton("Order");
+      orderBtn.addActionListener(new ButtonListener());
+
       rateItemBtn = new JButton("Raise Item");
+      rateItemBtn.addActionListener(new ButtonListener());
+
       updatePriceBtn = new JButton("Update Price");
+      updatePriceBtn.addActionListener(new ButtonListener());
+
       profitBtn = new JButton("Profit");
+      profitBtn.addActionListener(new ButtonListener());
+
       avgRatingBtn = new JButton("Average Rating");
+      avgRatingBtn.addActionListener(new ButtonListener());
+
       writeFileBtn = new JButton("Write File");
+      writeFileBtn.addActionListener(new ButtonListener());
 
       buttonPanelBag.fillCellCenterWithinCell(1, 1, statusBtn);
       buttonPanelBag.fillCellCenterWithinCell(1, 2, allItemNamesBtn);
@@ -254,8 +281,53 @@ public class RestaurantGUI extends CenterFrame {
       pack();
    }
 
-   // actionPerformed definition for ActionListener interface
-   public void actionPerformed(ActionEvent ae) {
-      // TODO
-   }  
+   private class ButtonListener implements ActionListener {
+         public void actionPerformed(ActionEvent e) {
+
+            switch(e.getActionCommand) {
+               case "Status":
+
+               break;
+               case "All Item Names":
+
+               break;
+               case "Sort":
+
+               break;
+               case "help":
+
+               break;
+               case "+":
+
+               break;
+               case "-":
+
+               break;
+               case "Activate":
+
+               break;
+               case "Discontinue":
+
+               break;
+               case "Order":
+
+               break;
+               case "Raise Item":
+
+               break;
+               case "Update Price":
+
+               break;
+               case "Average Rating":
+
+               break;
+               case "Write File":
+
+               break;
+               
+               default:
+               break; 
+            }
+         }
+   }
 }
