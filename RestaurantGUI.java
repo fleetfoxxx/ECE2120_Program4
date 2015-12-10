@@ -86,11 +86,11 @@ public class RestaurantGUI extends CenterFrame {
    private JScrollPane outputScrollPane;
 
    public RestaurantGUI(int width, int height, String name, String fileName, Boolean isObject) {
-
       super(width, height, name);
+      Restaurant theRestaurant;
       // Create Restaurant Object to manipulate!
       try {
-         Restaurant theRestaurant = new Restaurant(name, fileName, isObject);
+         theRestaurant = new Restaurant(name, fileName, isObject);
       } catch (RestaurantException re) {
          System.out.println(re.getMessage());
          System.out.println("Problem creating Restaurant - exiting program.");
@@ -98,11 +98,11 @@ public class RestaurantGUI extends CenterFrame {
       }
 
       setResizable(true);
-      setUp(width, height);
+      setUp(width, height,theRestaurant);
       setVisible(true);
    }
 
-   private void setUp(int width, int height) {
+   private void setUp(int width, int height, Restaurant theRestaurant) {
       setBackground(Color.white);
 
       // setup GUI elements
@@ -222,46 +222,46 @@ public class RestaurantGUI extends CenterFrame {
       buttonPanel.setLayout(buttonPanelBag);
 
       statusBtn = new JButton("Status");
-      statusBtn.addActionListener(new ButtonListener());
+      statusBtn.addActionListener(new ButtonListener(theRestaurant));
 
       allItemNamesBtn = new JButton("All Item Names");
-      allItemNamesBtn.addActionListener(new ButtonListener());
+      allItemNamesBtn.addActionListener(new ButtonListener(theRestaurant));
 
       sortBtn = new JButton("Sort");
-      sortBtn.addActionListener(new ButtonListener());
+      sortBtn.addActionListener(new ButtonListener(theRestaurant));
 
       helpBtn = new JButton("Help");
-      helpBtn.addActionListener(new ButtonListener());
+      helpBtn.addActionListener(new ButtonListener(theRestaurant));
 
       addBtn = new JButton("+");
-      addBtn.addActionListener(new ButtonListener());
+      addBtn.addActionListener(new ButtonListener(theRestaurant));
 
       removeBtn = new JButton("-");
-      addBtn.addActionListener(new ButtonListener());
+      addBtn.addActionListener(new ButtonListener(theRestaurant));
 
       activateBtn = new JButton("Activate");
-      activateBtn.addActionListener(new ButtonListener());
+      activateBtn.addActionListener(new ButtonListener(theRestaurant));
 
       discontinueBtn = new JButton("Discontinue");
-      discontinueBtn.addActionListener(new ButtonListener());
+      discontinueBtn.addActionListener(new ButtonListener(theRestaurant));
 
       orderBtn = new JButton("Order");
-      orderBtn.addActionListener(new ButtonListener());
+      orderBtn.addActionListener(new ButtonListener(theRestaurant));
 
       rateItemBtn = new JButton("Raise Item");
-      rateItemBtn.addActionListener(new ButtonListener());
+      rateItemBtn.addActionListener(new ButtonListener(theRestaurant));
 
       updatePriceBtn = new JButton("Update Price");
-      updatePriceBtn.addActionListener(new ButtonListener());
+      updatePriceBtn.addActionListener(new ButtonListener(theRestaurant));
 
       profitBtn = new JButton("Profit");
-      profitBtn.addActionListener(new ButtonListener());
+      profitBtn.addActionListener(new ButtonListener(theRestaurant));
 
       avgRatingBtn = new JButton("Average Rating");
-      avgRatingBtn.addActionListener(new ButtonListener());
+      avgRatingBtn.addActionListener(new ButtonListener(theRestaurant));
 
       writeFileBtn = new JButton("Write File");
-      writeFileBtn.addActionListener(new ButtonListener());
+      writeFileBtn.addActionListener(new ButtonListener(theRestaurant));
 
       buttonPanelBag.fillCellCenterWithinCell(1, 1, statusBtn);
       buttonPanelBag.fillCellCenterWithinCell(1, 2, allItemNamesBtn);
@@ -282,19 +282,24 @@ public class RestaurantGUI extends CenterFrame {
    }
 
    private class ButtonListener implements ActionListener {
+         private Restaurant theRestaurant;
+
+         public ButtonListener(Restaurant theRestaurant) {
+            this.theRestaurant = theRestaurant;
+         }
          public void actionPerformed(ActionEvent e) {
 
-            switch(e.getActionCommand) {
+            switch(e.getActionCommand()) {
                case "Status":
-                  System.out.println(theRestaurant);
+                  outputTextArea.append(theRestaurant.toString());
                break;
 
                case "All Item Names":
-                  doNames(theRestaurant);
+                 // doNames(theRestaurant);
                break;
 
                case "Sort":
-                  doSortWork(theRestaurant);
+                 // doSortWork(theRestaurant);
                break;
 
                case "help":
@@ -302,23 +307,23 @@ public class RestaurantGUI extends CenterFrame {
                break;
 
                case "+":
-                  doAddItem(theRestaurant);
+                //  doAddItem(theRestaurant);
                break;
 
                case "-":
-                  doRemoveItem(theRestaurant);
+                 // doRemoveItem(theRestaurant);
                break;
 
                case "Activate":
-                  doActivateItem(theRestaurant);
+                //  doActivateItem(theRestaurant);
                break;
 
                case "Discontinue":
-                  doDiscontinueItem(theRestaurant);
+                  //doDiscontinueItem(theRestaurant);
                break;
 
                case "Order":
-                  doOrderItem(theRestaurant);
+                 // doOrderItem(theRestaurant);
                break;
 
                case "Raise Item":
@@ -326,15 +331,15 @@ public class RestaurantGUI extends CenterFrame {
                break;
 
                case "Update Price":
-                  doUpdatePrice(theRestaurant);
+                 // doUpdatePrice(theRestaurant);
                break;
 
                case "Average Rating":
-                  doAverageItemRating(theRestaurant);
+                  //doAverageItemRating(theRestaurant);
                break;
 
                case "Write File":
-                  doWriteFile(theRestaurant);
+                 // doWriteFile(theRestaurant);
                break;
 
                default:
@@ -343,270 +348,270 @@ public class RestaurantGUI extends CenterFrame {
          }
    }
 
-   private static void doNames(Restaurant rest)
-    {
-        ArrayList<String> names = rest.getAllItemNames();
-        System.out.println("The restaurant item names are as follows:");
-        for (String name: names)
-        {
-            System.out.println(name);
-        }        
-    }
+   // private static void doNames(Restaurant rest)
+   //  {
+   //      ArrayList<String> names = rest.getAllItemNames();
+   //      System.out.println("The restaurant item names are as follows:");
+   //      for (String name: names)
+   //      {
+   //          System.out.println(name);
+   //      }        
+   //  }
     
-    private static void doAddItem(Restaurant rest)
-    {
-        System.out.println("Processing add...");
-        String name = key.readString("Please enter the item name. ");
-        MenuCategory[] categories = MenuCategory.values();
-        System.out.println("Category choices:");
-        for (MenuCategory mc : categories)
-        {
-            System.out.println(" " + mc);
-        }
-        String cat = key.readString("Please enter the item category. ");
-        try
-        {
-           MenuCategory category = MenuCategory.valueOf(cat.toUpperCase());
-           int servingSize = key.readInt("Please enter the serving size in ounces. ");
-           int numCalories = key.readInt("Please enter the number of calories. ");          
-           double price = key.readDouble("Please enter the retail price. ");
-           double wholesale = key.readDouble("Please enter the wholesale cost. ");
-           boolean success = rest.addToMenu(name, category, servingSize, numCalories, price, wholesale);
-           if (success)
-           {
-               System.out.println("Item " + name + " added successfully.");
-           }
-           else
-           {
-               System.out.println("Item " + name + " not added successfully.");
-           }
-        }
-        catch (RestaurantException re)
-        {
-            System.out.println(re.getMessage());
-            System.out.println("Item " + name + " not added to menu.");
-        }
-        catch (IllegalArgumentException iae)
-        {
-            System.out.println("Invalid category -- item " + name + " not added to menu.");
-        }
-    }
+   //  private static void doAddItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing add...");
+   //      String name = key.readString("Please enter the item name. ");
+   //      MenuCategory[] categories = MenuCategory.values();
+   //      System.out.println("Category choices:");
+   //      for (MenuCategory mc : categories)
+   //      {
+   //          System.out.println(" " + mc);
+   //      }
+   //      String cat = key.readString("Please enter the item category. ");
+   //      try
+   //      {
+   //         MenuCategory category = MenuCategory.valueOf(cat.toUpperCase());
+   //         int servingSize = key.readInt("Please enter the serving size in ounces. ");
+   //         int numCalories = key.readInt("Please enter the number of calories. ");          
+   //         double price = key.readDouble("Please enter the retail price. ");
+   //         double wholesale = key.readDouble("Please enter the wholesale cost. ");
+   //         boolean success = rest.addToMenu(name, category, servingSize, numCalories, price, wholesale);
+   //         if (success)
+   //         {
+   //             System.out.println("Item " + name + " added successfully.");
+   //         }
+   //         else
+   //         {
+   //             System.out.println("Item " + name + " not added successfully.");
+   //         }
+   //      }
+   //      catch (RestaurantException re)
+   //      {
+   //          System.out.println(re.getMessage());
+   //          System.out.println("Item " + name + " not added to menu.");
+   //      }
+   //      catch (IllegalArgumentException iae)
+   //      {
+   //          System.out.println("Invalid category -- item " + name + " not added to menu.");
+   //      }
+   //  }
     
-    private static void doRemoveItem(Restaurant rest)
-    {
-        System.out.println("Processing remove...");
-        String name = key.readString("Please enter the name of the item to be removed from the menu. ");
-        if (rest.removeFromMenu(name))
-        {
-            System.out.println(name + " successfully removed from menu.");
-        }
-        else
-        {
-            System.out.println(name + " unsuccessfully removed from menu.");
-        }
-    }
+   //  private static void doRemoveItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing remove...");
+   //      String name = key.readString("Please enter the name of the item to be removed from the menu. ");
+   //      if (rest.removeFromMenu(name))
+   //      {
+   //          System.out.println(name + " successfully removed from menu.");
+   //      }
+   //      else
+   //      {
+   //          System.out.println(name + " unsuccessfully removed from menu.");
+   //      }
+   //  }
     
-    private static void doActivateItem(Restaurant rest)
-    {
-        System.out.println("Processing activate...");
-        String choice = key.readString("Activate all? (y/n): ");
-        if (choice.equalsIgnoreCase("n"))
-        {
-            String name = key.readString("Please enter the name of the item to be activated on the menu. ");
-            if (rest.activate(name))
-            {
-                System.out.println(name + " successfully activated on menu.");
-            }
-            else
-            {
-                System.out.println(name + " unsuccessfully activated on menu.");
-            }
-        }
-        else if (choice.equalsIgnoreCase("y"))
-        {
-            rest.activate();
-            System.out.println("Activated all items on menu.");
-        }
-        else
-        {
-            System.out.println("Invalid choice.  Need y or n.");
-        }
-    }
+   //  private static void doActivateItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing activate...");
+   //      String choice = key.readString("Activate all? (y/n): ");
+   //      if (choice.equalsIgnoreCase("n"))
+   //      {
+   //          String name = key.readString("Please enter the name of the item to be activated on the menu. ");
+   //          if (rest.activate(name))
+   //          {
+   //              System.out.println(name + " successfully activated on menu.");
+   //          }
+   //          else
+   //          {
+   //              System.out.println(name + " unsuccessfully activated on menu.");
+   //          }
+   //      }
+   //      else if (choice.equalsIgnoreCase("y"))
+   //      {
+   //          rest.activate();
+   //          System.out.println("Activated all items on menu.");
+   //      }
+   //      else
+   //      {
+   //          System.out.println("Invalid choice.  Need y or n.");
+   //      }
+   //  }
     
-    private static void doDiscontinueItem(Restaurant rest)
-    {
-        System.out.println("Processing discontinue...");
-        String choice = key.readString("Discontinue all? (y/n): ");
-        if (choice.equalsIgnoreCase("n"))
-        {
-            String name = key.readString("Please enter the name of the item to be discontinued on the menu. ");
-            if (rest.discontinue(name))
-            {
-                System.out.println(name + " successfully discontinued on menu.");
-            }
-            else
-            {
-                System.out.println(name + " unsuccessfully discontinued on menu.");
-            }
-        }
-        else if (choice.equalsIgnoreCase("y"))
-        {
-            rest.discontinue();
-            System.out.println("Discontinued all items on menu.");
-        }
-        else
-        {
-            System.out.println("Invalid choice. Need y or n.");
-        }
-    }
+   //  private static void doDiscontinueItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing discontinue...");
+   //      String choice = key.readString("Discontinue all? (y/n): ");
+   //      if (choice.equalsIgnoreCase("n"))
+   //      {
+   //          String name = key.readString("Please enter the name of the item to be discontinued on the menu. ");
+   //          if (rest.discontinue(name))
+   //          {
+   //              System.out.println(name + " successfully discontinued on menu.");
+   //          }
+   //          else
+   //          {
+   //              System.out.println(name + " unsuccessfully discontinued on menu.");
+   //          }
+   //      }
+   //      else if (choice.equalsIgnoreCase("y"))
+   //      {
+   //          rest.discontinue();
+   //          System.out.println("Discontinued all items on menu.");
+   //      }
+   //      else
+   //      {
+   //          System.out.println("Invalid choice. Need y or n.");
+   //      }
+   //  }
     
-    private static void doUpdatePrice(Restaurant rest)
-    {
-        System.out.println("Processing price update...");
-        int percent = key.readInt("Please enter the price change percentage. ");
-        String wholesale = key.readString("Wholesale? (y/anything else): ");
-        boolean isWholesale = false;
-        if (wholesale.equalsIgnoreCase("y"))
-        {
-            isWholesale = true;
-        }
-        String choice = key.readString("Update all prices? (y/n): ");
-        if (choice.equalsIgnoreCase("n"))
-        {
-            String name = key.readString("Please enter the name of the item to have its price changed. ");
-            if (rest.updatePrice(isWholesale, name, percent))
-            {
-                System.out.println("Price for " + name + " successfully changed.");
-            }
-            else
-            {
-                System.out.println("Price for " + name + " unsuccessfully changed.");
-            }
-        }
-        else if (choice.equalsIgnoreCase("y"))
-        {
-            if (rest.updatePrice(isWholesale, percent))
-            {
-                System.out.println("Successfully changed prices for all items on menu.");
-            }
-            else
-            {
-                System.out.println("Unsuccessfully changed prices for all items on menu.");
-            }
-        }
-        else
-        {
-            System.out.println("Invalid choice. Need y or n.");
-        }
-    }
+   //  private static void doUpdatePrice(Restaurant rest)
+   //  {
+   //      System.out.println("Processing price update...");
+   //      int percent = key.readInt("Please enter the price change percentage. ");
+   //      String wholesale = key.readString("Wholesale? (y/anything else): ");
+   //      boolean isWholesale = false;
+   //      if (wholesale.equalsIgnoreCase("y"))
+   //      {
+   //          isWholesale = true;
+   //      }
+   //      String choice = key.readString("Update all prices? (y/n): ");
+   //      if (choice.equalsIgnoreCase("n"))
+   //      {
+   //          String name = key.readString("Please enter the name of the item to have its price changed. ");
+   //          if (rest.updatePrice(isWholesale, name, percent))
+   //          {
+   //              System.out.println("Price for " + name + " successfully changed.");
+   //          }
+   //          else
+   //          {
+   //              System.out.println("Price for " + name + " unsuccessfully changed.");
+   //          }
+   //      }
+   //      else if (choice.equalsIgnoreCase("y"))
+   //      {
+   //          if (rest.updatePrice(isWholesale, percent))
+   //          {
+   //              System.out.println("Successfully changed prices for all items on menu.");
+   //          }
+   //          else
+   //          {
+   //              System.out.println("Unsuccessfully changed prices for all items on menu.");
+   //          }
+   //      }
+   //      else
+   //      {
+   //          System.out.println("Invalid choice. Need y or n.");
+   //      }
+   //  }
     
-    private static void doRateItem(Restaurant rest)
-    {
-        System.out.println("Processing item rating...");
-        String itemName = key.readString("Please enter the item name. ");
-        String reviewerName = key.readString("Please enter the reviewer name. ");
-        String date = key.readString("Please enter the date (mm/dd/yyyy). ");
-        int rating = key.readInt("Please enter the rating. ");
-        try
-        {
-            boolean success = rest.addRating(itemName, reviewerName, date, rating);
-            if (success)
-            {
-                System.out.println("Rating successfully added for " + itemName);
-            }
-            else
-            {
-                System.out.println("Rating unsuccessfully added for " + itemName);
-            }
-        }
-        catch (RestaurantException re)
-        {
-            System.out.println(re.getMessage());
-            System.out.println("Rating unsuccessfully added for " + itemName);
-        }
-    }
+   //  private static void doRateItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing item rating...");
+   //      String itemName = key.readString("Please enter the item name. ");
+   //      String reviewerName = key.readString("Please enter the reviewer name. ");
+   //      String date = key.readString("Please enter the date (mm/dd/yyyy). ");
+   //      int rating = key.readInt("Please enter the rating. ");
+   //      try
+   //      {
+   //          boolean success = rest.addRating(itemName, reviewerName, date, rating);
+   //          if (success)
+   //          {
+   //              System.out.println("Rating successfully added for " + itemName);
+   //          }
+   //          else
+   //          {
+   //              System.out.println("Rating unsuccessfully added for " + itemName);
+   //          }
+   //      }
+   //      catch (RestaurantException re)
+   //      {
+   //          System.out.println(re.getMessage());
+   //          System.out.println("Rating unsuccessfully added for " + itemName);
+   //      }
+   //  }
     
-    private static void doOrderItem(Restaurant rest)
-    {
-        System.out.println("Processing item ordering...");
-        String itemName = key.readString("Please enter the item name. ");
-        int numOrders = key.readInt("Please enter the number of orders. ");
-        boolean success = rest.order(itemName, numOrders);
-        if (success)
-        {
-            System.out.println(numOrders + " of " + itemName + " successfully processed.");
-        }
-        else
-        {
-            System.out.println(numOrders + " of " + itemName + " unsuccessfully processed.");
-        }
-    }
+   //  private static void doOrderItem(Restaurant rest)
+   //  {
+   //      System.out.println("Processing item ordering...");
+   //      String itemName = key.readString("Please enter the item name. ");
+   //      int numOrders = key.readInt("Please enter the number of orders. ");
+   //      boolean success = rest.order(itemName, numOrders);
+   //      if (success)
+   //      {
+   //          System.out.println(numOrders + " of " + itemName + " successfully processed.");
+   //      }
+   //      else
+   //      {
+   //          System.out.println(numOrders + " of " + itemName + " unsuccessfully processed.");
+   //      }
+   //  }
     
-    private static void doProfit(Restaurant rest)
-    {
-        System.out.println("Processing profit...");
-        System.out.println("The total profit of restaurant " + rest.getName() + " is " + FMT.format(rest.getTotalProfit()) + ".");
-    }
+   //  private static void doProfit(Restaurant rest)
+   //  {
+   //      System.out.println("Processing profit...");
+   //      System.out.println("The total profit of restaurant " + rest.getName() + " is " + FMT.format(rest.getTotalProfit()) + ".");
+   //  }
     
-    private static void doAverageItemRating(Restaurant rest)
-    {
-        System.out.println("Processing average item rating...");
-        System.out.println("The average rating for menu items at restaurant " + rest.getName() + " is " + FMT.format(rest.getAverageItemRating()).substring(1) + ".");
-    }
+   //  private static void doAverageItemRating(Restaurant rest)
+   //  {
+   //      System.out.println("Processing average item rating...");
+   //      System.out.println("The average rating for menu items at restaurant " + rest.getName() + " is " + FMT.format(rest.getAverageItemRating()).substring(1) + ".");
+   //  }
     
-    private static void doWriteFile(Restaurant rest)
-    {
-        //System.out.println("Processing write file...");
-        String fileName = key.readString("Please enter the name of the output file.");
-        boolean isObject = key.readString("Is the file to be an object file? (y/anything else): ").equalsIgnoreCase("Y") ? true : false;
-        try
-        {
-            rest.writeToFile(fileName, isObject);
-            //System.out.println((isObject ? "Object" : "Text") + " file " + fileName + " written successfully.");
-        }
-        catch (RestaurantException re)
-        {
-            System.out.println(re.getMessage());
-            //System.out.println("File written unsuccessfully.");
-        }        
-    }
+   //  private static void doWriteFile(Restaurant rest)
+   //  {
+   //      //System.out.println("Processing write file...");
+   //      String fileName = key.readString("Please enter the name of the output file.");
+   //      boolean isObject = key.readString("Is the file to be an object file? (y/anything else): ").equalsIgnoreCase("Y") ? true : false;
+   //      try
+   //      {
+   //          rest.writeToFile(fileName, isObject);
+   //          //System.out.println((isObject ? "Object" : "Text") + " file " + fileName + " written successfully.");
+   //      }
+   //      catch (RestaurantException re)
+   //      {
+   //          System.out.println(re.getMessage());
+   //          //System.out.println("File written unsuccessfully.");
+   //      }        
+   //  }
     
-    private static void doSortWork(Restaurant rest)
-    {
-        System.out.println("Processing sort...");
-        int sortField;
-        do
-        {
-            showSortFieldMenu();          
-            sortField = key.readInt("Enter the sort field: ");
-        } while (sortField < 1 || sortField > 3);
-        int sortAlg;
-        do
-        {
-            showSortAlgorithmMenu();
-            sortAlg = key.readInt("Enter the algorithm number: ");
-        } while (sortAlg < 1 || sortAlg > 2);
-        String result = rest.sort(sortField, sortAlg);
-        System.out.println("Sort results:\n" + result);
-    }
+   //  private static void doSortWork(Restaurant rest)
+   //  {
+   //      System.out.println("Processing sort...");
+   //      int sortField;
+   //      do
+   //      {
+   //          showSortFieldMenu();          
+   //          sortField = key.readInt("Enter the sort field: ");
+   //      } while (sortField < 1 || sortField > 3);
+   //      int sortAlg;
+   //      do
+   //      {
+   //          showSortAlgorithmMenu();
+   //          sortAlg = key.readInt("Enter the algorithm number: ");
+   //      } while (sortAlg < 1 || sortAlg > 2);
+   //      String result = rest.sort(sortField, sortAlg);
+   //      System.out.println("Sort results:\n" + result);
+   //  }
 
-    private static void doSortWork(Restaurant rest)
-    {
-        System.out.println("Processing sort...");
-        int sortField;
-        do
-        {
-            showSortFieldMenu();          
-            sortField = key.readInt("Enter the sort field: ");
-        } while (sortField < 1 || sortField > 3);
-        int sortAlg;
-        do
-        {
-            showSortAlgorithmMenu();
-            sortAlg = key.readInt("Enter the algorithm number: ");
-        } while (sortAlg < 1 || sortAlg > 2);
-        String result = rest.sort(sortField, sortAlg);
-        System.out.println("Sort results:\n" + result);
-    }
+   //  private static void doSortWork(Restaurant rest)
+   //  {
+   //      System.out.println("Processing sort...");
+   //      int sortField;
+   //      do
+   //      {
+   //          showSortFieldMenu();          
+   //          sortField = key.readInt("Enter the sort field: ");
+   //      } while (sortField < 1 || sortField > 3);
+   //      int sortAlg;
+   //      do
+   //      {
+   //          showSortAlgorithmMenu();
+   //          sortAlg = key.readInt("Enter the algorithm number: ");
+   //      } while (sortAlg < 1 || sortAlg > 2);
+   //      String result = rest.sort(sortField, sortAlg);
+   //      System.out.println("Sort results:\n" + result);
+   //  }
     
 }
